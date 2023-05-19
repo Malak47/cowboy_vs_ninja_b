@@ -54,7 +54,8 @@ There are `three` types of ninjas:
 
 ## Part 3: Team
 
-This class represents a **team** of up to ten fighters, where each fighter can be a `ninja` or a `cowboy`. Each team has a
+This class represents a **team** of up to ten fighters, where each fighter can be a `ninja` or a `cowboy`. Each team has
+a
 leader who is one of the fighters.
 
 When a team is created, it receives a pointer to the leader.
@@ -64,20 +65,22 @@ The defined functions for the team are:
 - `Add`: Receives a pointer to a cowboy or ninja and adds it to the team.
 - `Attack`: Receives a pointer to an enemy team. The attack of the enemy team is carried out as follows:
 
-First, check if the attacking team's leader is alive. Otherwise, choose a new leader, which is the living character
-closest in proximity to the current leader.
-
-- Then, select a victim from the enemy team. The victim is a member of the enemy team who is alive and closest in
-  proximity to the attacking team's leader.
-- All living members of the attacking team will attack the selected victim. Cowboys with bullets will shoot the victim,
-  subtracting damage, and cowboys without bullets will reload their gun. Ninjas within one meter of the victim will
-  slash the victim, and ninjas farther away will move towards the victim.
-- At each stage, if the victim dies, a new victim is chosen (again, the closest living enemy character to the attacking
-  team's leader).
-- If there are no living members in the attacking team or in the enemy team, the attack ends.
-- Is Still Alive: Returns an integer representing the number of living members in the team.
-- Print: Iterates over all the characters in the team and prints their details.
-- Destructor: Releases the memory allocated for all the characters in the team.
+    - First, check if the attacking team's leader is alive. Otherwise, choose a new leader, which is the living
+      character
+      closest in proximity to the current leader.
+    - Then, select a victim from the enemy team. The victim is a member of the enemy team who is alive and closest in
+      proximity to the attacking team's leader.
+    - All living members of the attacking team will attack the selected victim. Cowboys with bullets will shoot the
+      victim,
+      subtracting damage, and cowboys without bullets will reload their gun. Ninjas within one meter of the victim will
+      slash the victim, and ninjas farther away will move towards the victim.
+    - At each stage, if the victim dies, a new victim is chosen (again, the closest living enemy character to the
+      attacking
+      team's leader).
+    - If there are no living members in the attacking team or in the enemy team, the attack ends.
+- `IsAlive`: Returns an integer representing the number of living members in the team.
+- `Print`: Iterates over all the characters in the team and prints their details.
+- `Destructor`: Releases the memory allocated for all the characters in the team.
 
 Traversal of the team members (for the purpose of attacking, printing, or comparison) is always performed in the
 following order: first, iterate over all the cowboys, and then iterate over all the ninjas. Within each team, the
