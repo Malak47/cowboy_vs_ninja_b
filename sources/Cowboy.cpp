@@ -10,6 +10,9 @@ namespace ariel {
                                                   bullets(Cowboy_Bullets) {}
 
     void Cowboy::shoot(Character *enemy) {
+        if (!enemy) {
+            throw invalid_argument("Error With shoot(): No Enemy Found\n");
+        }
         if (this->isAlive() && hasBullets()) {
             enemy->hit(Cowboy_shotDamage);
             bullets--;
@@ -32,15 +35,16 @@ namespace ariel {
         if (!this->isAlive()) {
             return "C (" + this->getName() + ")\n";
         }
-        return "Name: " + this->getName() +
-               ", Hit Points: " + to_string(this->getHitPoints()) +
-               ", Location: (" + to_string(this->getLocation().getX()) + "," + to_string(this->getLocation().getY()) +
-               ")\n";
-
+        return "{ {Name:" + this->getName() +
+               "} , {Hit Points:" + to_string(this->getHitPoints()) +
+               "} , {Location: (" + to_string(this->getLocation().getX()) + "," +
+               to_string(this->getLocation().getY()) +
+               ")} }\n";
     }
 
     int Cowboy::getBulletsLeft() {
         return bullets;
     }
+
 
 }

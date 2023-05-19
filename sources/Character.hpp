@@ -15,8 +15,11 @@ namespace ariel {
         Point location;
         int hitPoints;
         string name;
+        bool joinedTeam;
 
     public:
+        virtual ~Character() = default;
+
         Character(string name, Point location, int hitPoints);
 
         bool isAlive();
@@ -32,6 +35,10 @@ namespace ariel {
         void print();
 
         int getHitPoints();
+
+        void updateJoinedTeam();
+
+        bool getJoinedTeam();
 
     };
 }

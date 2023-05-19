@@ -11,6 +11,10 @@ namespace ariel {
     Point::Point(double xNumNum, double yNum) : xNum(xNumNum), yNum(yNum) {}
 
     double Point::distance(Point other) {
+        Point *pOther = &other;
+        if (!pOther) {
+            throw invalid_argument("Error With distance(): No Other Point Found\n");
+        }
         return sqrt((pow((xNum - other.xNum), 2)) + (pow((yNum - other.yNum), 2)));
     }
 
@@ -37,7 +41,24 @@ namespace ariel {
     }
 
     Point Point::moveTowards(Point source, Point destination, double distance) {
-        return {0, 0};
+        Point *pSource = &source;
+        Point *pDestination = &destination;
+        if (!pSource) {
+            throw invalid_argument("Error With moveTowards(): No Source Found\n");
+        }
+        if (!(pDestination)) {
+            throw invalid_argument("Error With moveTowards(): No Destination Found\n");
+        }
+        if (distance < 0) {
+            throw invalid_argument("Error With moveTowards(): Negative Distance Value\n");
+        }
+        double originalDistance = source.distance(destination);
+        if (originalDistance <= distance) {
+            return destination;
+        }
+        double ratio = distance / originalDistance;
+        return {source.getX() + ratio * (destination.getX() - source.getX()),
+                source.getY() + ratio * (destination.getY() - source.getY())};
     }
 
 }

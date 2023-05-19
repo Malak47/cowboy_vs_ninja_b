@@ -10,7 +10,10 @@ namespace ariel {
                                                                           speed(speed) {}
 
     void Ninja::move(Character *enemy) {
-        return;
+        if(!enemy){
+            throw invalid_argument("Error With move(): No Enemy Found\n");
+        }
+        Point::moveTowards(this->getLocation(),enemy->getLocation(),this->speed);
     }
 
     void Ninja::slash(Character *enemy) {
@@ -27,9 +30,9 @@ namespace ariel {
         if (!this->isAlive()) {
             return "N (" + this->getName() + ")\n";
         }
-        return "Name: " + this->getName() +
-               ", Hit Points: " + to_string(this->getHitPoints()) +
-               ", Location: (" + to_string(this->getLocation().getX()) + "," + to_string(this->getLocation().getY()) +
-               ")\n";
+        return "{ {Name:" + this->getName() +
+               "} , {Hit Points:" + to_string(this->getHitPoints()) +
+               "} , {Location: (" + to_string(this->getLocation().getX()) + "," + to_string(this->getLocation().getY()) +
+               ")} }\n";
     }
 }
