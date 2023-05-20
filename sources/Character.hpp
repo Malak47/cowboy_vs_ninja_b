@@ -18,9 +18,9 @@ namespace ariel {
         bool joinedTeam;
 
     public:
-        virtual ~Character() = default;
-
         Character(string name, Point location, int hitPoints);
+
+        virtual ~Character() = default;
 
         bool isAlive();
 
@@ -36,11 +36,16 @@ namespace ariel {
 
         int getHitPoints();
 
-        void updateJoinedTeam();
-
         bool getJoinedTeam();
 
         void setLocation(Point location);
+
+        void updateJoinedTeam();
+
+        Character(Character &); // Copy Constructor.
+        Character(Character &&) noexcept; // Move Constructor.
+        Character &operator=(const Character &); // Copy assignment operator.
+        Character &operator=(Character &&) noexcept; // Move assignment operator.
 
 
     };
