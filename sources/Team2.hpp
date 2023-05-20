@@ -16,11 +16,7 @@ namespace ariel {
     public:
         Team2(Character *leader);
 
-        void add(Character *fighter);
-
-        void attack(Team *enemyTeam);
-
-        void print();
+        void add(Character *fighter) override;
 
     };
 }

@@ -23,11 +23,11 @@ namespace ariel {
     public:
         Team(Character *leader);
 
-        ~Team();
+        virtual ~Team();
 
-        void add(Character *fighter);
+        virtual void add(Character *fighter);
 
-        void attack(Team *enemyTeam);
+        virtual void attack(Team *enemyTeam);
 
         int stillAlive();
 

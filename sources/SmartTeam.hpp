@@ -15,9 +15,7 @@ namespace ariel {
     public:
         SmartTeam(Character *leader);
 
-        void attack(Team *enemyTeam);
-
-        void print();
+        void attack(Team *enemyTeam) override;
     };
 }
 #endif //COWBOY_VS_NINJA_A_SMARTTEAM_HPP

@@ -8,14 +8,6 @@ namespace ariel {
     Team2::Team2(Character *leader) : Team(leader) {
     }
 
-    void Team2::attack(Team *enemyTeam) {
-        Team::attack(enemyTeam);
-    }
-
-    void Team2::print() {
-        Team::print();
-    }
-
     void Team2::add(Character *fighter) {
         if (!fighter) {
             throw invalid_argument("Error With add(): No Fighter Found\n");
