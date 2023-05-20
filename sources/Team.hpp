@@ -23,31 +23,33 @@ namespace ariel {
     public:
         Team(Character *leader);
 
+        ~Team();
+
         void add(Character *fighter);
 
         void attack(Team *enemyTeam);
 
         int stillAlive();
 
-        size_t getCurrTeamMembers();
-
-        void setNewLeader();
-
         void print();
 
         void sortArray();
 
-        array<Character *, TeamMembers> &getFighters();
-        void setFighters(array<Character *, TeamMembers> &fighters);
-        void updateCurrTeamMembers();
-        Character* setVictim(Team *enemyTeam);
+        size_t getCurrTeamMembers();
 
-        ~Team();
+        array<Character *, TeamMembers> &getFighters();
+
+        bool setNewLeader();
+
+        Character *setVictim(Team *enemyTeam);
+
+        void updateCurrTeamMembers();
+
         Team(Team &) = delete; // Copy Constructor.
         Team(Team &&) noexcept = delete; // Move Constructor.
         Team &operator=(const Team &) = delete; // Copy assignment operator.
-
         Team &operator=(Team &&) noexcept = delete;
+
     };
 }
 

@@ -18,7 +18,6 @@ namespace ariel {
         leader->updateJoinedTeam();
     }
 
-
     Team::~Team() {
         size_t i = 0;
         while (i < currTeamMembers) {
@@ -56,12 +55,13 @@ namespace ariel {
             throw runtime_error("Error With attack(): EnemyTeam Is Dead\n");
         }
         //new Leader if necessary
+
         if (!this->leader->isAlive()) {
-            setNewLeader();
-            if (!leader) {
+            if (!setNewLeader()) {
                 return;
             }
         }
+
         //select a victim from the enemy team
         Character *victim = setVictim(enemyTeam);
         if (!victim) {
@@ -86,13 +86,15 @@ namespace ariel {
                 }
             }
             if (!victim->isAlive()) {
+                //select a victim from the enemy team
                 victim = setVictim(enemyTeam);
+                if (!victim) {
+                    return;
+                }
             }
             i++;
         }
-
     }
-
 
     int Team::stillAlive() {
         size_t i = 0;
@@ -129,10 +131,6 @@ namespace ariel {
         return fighters;
     }
 
-    void Team::setFighters(array<Character *, TeamMembers> &fighters) {
-        this->fighters = fighters;
-    }
-
     void Team::updateCurrTeamMembers() {
         currTeamMembers++;
     }
@@ -160,10 +158,10 @@ namespace ariel {
         return enemyTeam->fighters.at(at);
     }
 
-    void Team::setNewLeader() {
+    bool Team::setNewLeader() {
         //choose a new leader
+        double closest = INT32_MAX;
         size_t i = 0;
-        double closest = 0;
         size_t at = 0;
         bool flag = false;
         if (!this->leader->isAlive()) {
@@ -178,12 +176,9 @@ namespace ariel {
                 }
                 i++;
             }
-            if (!flag) {
-                this->leader = nullptr;
-            }
-            this->leader = fighters.at(at);
         }
+        this->leader = fighters.at(at);
+        return flag;
     }
-
 
 }
