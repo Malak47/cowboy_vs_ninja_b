@@ -13,6 +13,12 @@ namespace ariel {
         if (!enemy) {
             throw invalid_argument("Error With shoot(): No Enemy Found\n");
         }
+        if (!isAlive()) {
+            throw runtime_error("Error With shoot(): Current Character Is Dead\n");
+        }
+        if (!enemy->isAlive()) {
+            throw runtime_error("Error With shoot(): Enemy Character Is Dead\n");
+        }
         if (this->isAlive() && hasBullets()) {
             enemy->hit(Cowboy_shotDamage);
             bullets--;
@@ -24,6 +30,9 @@ namespace ariel {
     }
 
     void Cowboy::reload() {
+        if(!isAlive()){
+            throw runtime_error("Error With reload(): Current Character Is Dead\n");
+        }
         bullets = Cowboy_Bullets;
     }
 

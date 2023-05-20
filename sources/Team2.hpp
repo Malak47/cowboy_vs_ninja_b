@@ -16,9 +16,12 @@ namespace ariel {
     public:
         Team2(Character *leader);
 
+        void add(Character *fighter);
+
         void attack(Team *enemyTeam);
 
         void print();
+
     };
 }
 #endif //COWBOY_VS_NINJA_A_TEAM2_HPP

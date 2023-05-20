@@ -4,19 +4,32 @@
 
 #include "Ninja.hpp"
 
+using namespace std;
+
 namespace ariel {
 
     Ninja::Ninja(string name, Point location, int hitPoints, int speed) : Character(name, location, hitPoints),
                                                                           speed(speed) {}
 
     void Ninja::move(Character *enemy) {
-        if(!enemy){
+        if (!enemy) {
             throw invalid_argument("Error With move(): No Enemy Found\n");
         }
-        Point::moveTowards(this->getLocation(),enemy->getLocation(),this->speed);
+        double distance = min(this->getLocation().distance(enemy->getLocation()), static_cast<double>(this->speed));
+        setLocation(Point::moveTowards(this->getLocation(), enemy->getLocation(), distance));
+
     }
 
     void Ninja::slash(Character *enemy) {
+        if (!enemy) {
+            throw invalid_argument("Error With slash(): No Enemy Found\n");
+        }
+        if (!isAlive()) {
+            throw runtime_error("Error With slash(): Current Character Is Dead\n");
+        }
+        if (!enemy->isAlive()) {
+            throw runtime_error("Error With slash(): Enemy Character Is Dead\n");
+        }
         if (this->isAlive() && distance(enemy) < 1) {
             enemy->hit(Ninja_SlashDamage);
         }
@@ -32,7 +45,8 @@ namespace ariel {
         }
         return "{ {Name:" + this->getName() +
                "} , {Hit Points:" + to_string(this->getHitPoints()) +
-               "} , {Location: (" + to_string(this->getLocation().getX()) + "," + to_string(this->getLocation().getY()) +
+               "} , {Location: (" + to_string(this->getLocation().getX()) + "," +
+               to_string(this->getLocation().getY()) +
                ")} }\n";
     }
 }

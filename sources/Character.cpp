@@ -18,8 +18,7 @@ namespace ariel {
         if (!other) {
             throw invalid_argument("Error With distance(): No Other Character Found\n");
         }
-        return sqrt((pow((this->location.getX() - other->getLocation().getX()), 2)) +
-                    (pow((this->location.getY() - other->getLocation().getY()), 2)));
+        return this->location.distance(other->location);
     }
 
     void Character::hit(int hit) {
@@ -52,8 +51,13 @@ namespace ariel {
     void Character::updateJoinedTeam() {
         joinedTeam = true;
     }
-    bool Character::getJoinedTeam(){
+
+    bool Character::getJoinedTeam() {
         return joinedTeam;
+    }
+
+    void Character::setLocation(Point location) {
+        this->location = location;
     }
 
 }

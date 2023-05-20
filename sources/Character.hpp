@@ -40,6 +40,9 @@ namespace ariel {
 
         bool getJoinedTeam();
 
+        void setLocation(Point location);
+
+
     };
 }
 #endif //COWBOY_VS_NINJA_A_CHARACTER_HPP

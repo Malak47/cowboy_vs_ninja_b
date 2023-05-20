@@ -19,7 +19,7 @@ namespace ariel {
     private:
         Character *leader;
         array<Character *, TeamMembers> fighters;
-        unsigned long numberOfFighters = 0;
+        size_t currTeamMembers;
     public:
         Team(Character *leader);
 
@@ -29,16 +29,24 @@ namespace ariel {
 
         int stillAlive();
 
-        unsigned long getNumberOfFighters();
+        size_t getCurrTeamMembers();
+
+        void setNewLeader();
 
         void print();
 
-        ~Team();
+        void sortArray();
 
-        Team (Team&) = delete; // Copy Constructor.
-        Team (Team&&) noexcept = delete; // Move Constructor.
-        Team& operator = (const Team&) = delete; // Copy assignment operator.
-        Team& operator = (Team&&) noexcept = delete; // Move assignment operator.
+        array<Character *, TeamMembers> &getFighters();
+        void setFighters(array<Character *, TeamMembers> &fighters);
+        void updateCurrTeamMembers();
+
+        ~Team();
+        Team(Team &) = delete; // Copy Constructor.
+        Team(Team &&) noexcept = delete; // Move Constructor.
+        Team &operator=(const Team &) = delete; // Copy assignment operator.
+
+        Team &operator=(Team &&) noexcept = delete;
     };
 }
 
