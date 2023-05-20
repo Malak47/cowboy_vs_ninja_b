@@ -19,6 +19,9 @@ namespace ariel {
         if (!enemy->isAlive()) {
             throw runtime_error("Error With shoot(): Enemy Character Is Dead\n");
         }
+        if(enemy == this){
+            throw runtime_error("Error With shoot(): Can't Shoot Himself\n");
+        }
         if (this->isAlive() && hasBullets()) {
             enemy->hit(Cowboy_shotDamage);
             bullets--;

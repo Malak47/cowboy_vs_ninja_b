@@ -30,6 +30,9 @@ namespace ariel {
         if (!enemy->isAlive()) {
             throw runtime_error("Error With slash(): Enemy Character Is Dead\n");
         }
+        if (enemy == this) {
+            throw runtime_error("Error With slash(): Can't Slash Himself\n");
+        }
         if (this->isAlive() && distance(enemy) < 1) {
             enemy->hit(Ninja_SlashDamage);
         }

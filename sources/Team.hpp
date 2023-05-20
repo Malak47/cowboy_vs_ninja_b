@@ -40,6 +40,7 @@ namespace ariel {
         array<Character *, TeamMembers> &getFighters();
         void setFighters(array<Character *, TeamMembers> &fighters);
         void updateCurrTeamMembers();
+        Character* setVictim(Team *enemyTeam);
 
         ~Team();
         Team(Team &) = delete; // Copy Constructor.

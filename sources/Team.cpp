@@ -46,58 +46,53 @@ namespace ariel {
         if (!enemyTeam) {
             throw invalid_argument("Error With attack(): No enemyTeam Found\n");
         }
-        while (stillAlive() > 0 && enemyTeam->stillAlive() > 0) {
-            double closest = INT32_MAX;
-
-            //new Leader if necessary
+        if (this == enemyTeam) {
+            throw runtime_error("Error With attack(): Two Teams Are Equal\n");
+        }
+        if (!this->stillAlive()) {
+            throw runtime_error("Error With attack(): Attacking Team Is Dead\n");
+        }
+        if (!enemyTeam->stillAlive()) {
+            throw runtime_error("Error With attack(): EnemyTeam Is Dead\n");
+        }
+        //new Leader if necessary
+        if (!this->leader->isAlive()) {
             setNewLeader();
-
-            //select a victim from the enemy team
-            closest = INT32_MAX;
-            size_t i = 0;
-            size_t at = 0;
-
-            while (i < enemyTeam->currTeamMembers) {
-                if (enemyTeam->fighters.at(i)->isAlive()) {
-                    double temp = leader->distance(enemyTeam->fighters.at(i));
-                    if (temp < closest) {
-                        closest = temp;
-                        at = i;
-                    }
-                }
-                i++;
-            }
-
-            //attack the victim
-            while (i < currTeamMembers) {
-                if (fighters.at(i)->isAlive()) {
-                    if (Cowboy *cowboy = dynamic_cast<Cowboy *>(fighters.at(i))) {
-                        if (!cowboy->hasBullets()) {
-                            cowboy->reload();
-                            continue;
-                        }
-                        cowboy->shoot(enemyTeam->fighters.at(at));
-                    } else if (Ninja *ninja = dynamic_cast<Ninja *>(fighters.at(i))) {
-                        if (ninja->distance(enemyTeam->fighters.at(at)) >= 1) {
-                            ninja->move(enemyTeam->fighters.at(at));
-                            continue;
-                        }
-                        ninja->slash(enemyTeam->fighters.at(at));
-                    }
-                }
-                i++;
-            }
-            if (enemyTeam->stillAlive() == 0) {
-                cout << "All EnemyTeam Are Dead!" << endl;
-                return;
-            }
-
-            if (stillAlive() == 0) {
-                cout << "All CurrentTeam Are Dead!" << endl;
+            if (!leader) {
                 return;
             }
         }
+        //select a victim from the enemy team
+        Character *victim = setVictim(enemyTeam);
+        if (!victim) {
+            return;
+        }
+        //attack the victim
+        size_t i = 0;
+        while (i < currTeamMembers) {
+            if (fighters.at(i)->isAlive() && victim->isAlive()) {
+                if (Cowboy *cowboy = dynamic_cast<Cowboy *>(fighters.at(i))) {
+                    if (cowboy->hasBullets()) {
+                        cowboy->shoot(victim);
+                    } else {
+                        cowboy->reload();
+                    }
+                } else if (Ninja *ninja = dynamic_cast<Ninja *>(fighters.at(i))) {
+                    if (ninja->distance(victim) < 1) {
+                        ninja->slash(victim);
+                    } else {
+                        ninja->move(victim);
+                    }
+                }
+            }
+            if (!victim->isAlive()) {
+                victim = setVictim(enemyTeam);
+            }
+            i++;
+        }
+
     }
+
 
     int Team::stillAlive() {
         size_t i = 0;
@@ -121,25 +116,6 @@ namespace ariel {
         return currTeamMembers;
     }
 
-    void Team::setNewLeader() {
-        //choose a new leader
-        size_t i = 0;
-        double closest = 0;
-        size_t at = 0;
-        if (!this->leader->isAlive()) {
-            while (i < currTeamMembers) {
-                if (fighters.at(i)->isAlive()) {
-                    double temp = this->leader->distance(fighters.at(i));
-                    if (temp < closest) {
-                        closest = temp;
-                        at = i;
-                    }
-                }
-                i++;
-            }
-            this->leader = fighters.at(at);
-        }
-    }
 
     void Team::sortArray() {
         //https://en.cppreference.com/w/cpp/algorithm/stable_partition
@@ -160,4 +136,54 @@ namespace ariel {
     void Team::updateCurrTeamMembers() {
         currTeamMembers++;
     }
+
+    Character *Team::setVictim(Team *enemyTeam) {
+        //select a victim from the enemy team
+        double closest = INT32_MAX;
+        size_t i = 0;
+        size_t at = 0;
+        bool flag = false;
+        while (i < enemyTeam->currTeamMembers) {
+            if (enemyTeam->fighters.at(i)->isAlive()) {
+                flag = true;
+                double temp = leader->distance(enemyTeam->fighters.at(i));
+                if (temp < closest) {
+                    closest = temp;
+                    at = i;
+                }
+            }
+            i++;
+        }
+        if (!flag) {
+            return nullptr;
+        }
+        return enemyTeam->fighters.at(at);
+    }
+
+    void Team::setNewLeader() {
+        //choose a new leader
+        size_t i = 0;
+        double closest = 0;
+        size_t at = 0;
+        bool flag = false;
+        if (!this->leader->isAlive()) {
+            while (i < currTeamMembers) {
+                if (fighters.at(i)->isAlive()) {
+                    flag = true;
+                    double temp = this->leader->distance(fighters.at(i));
+                    if (temp < closest) {
+                        closest = temp;
+                        at = i;
+                    }
+                }
+                i++;
+            }
+            if (!flag) {
+                this->leader = nullptr;
+            }
+            this->leader = fighters.at(at);
+        }
+    }
+
+
 }
