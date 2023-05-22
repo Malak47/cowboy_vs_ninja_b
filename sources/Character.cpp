@@ -60,4 +60,13 @@ namespace ariel {
         this->location = location;
     }
 
+    int Character::getDamage() {
+        if (dynamic_cast<Cowboy *>(this)) {
+            return Cowboy_shotDamage;
+        } else if (dynamic_cast<Ninja *>(this)) {
+            return Ninja_SlashDamage;
+        }
+        return -1;
+    }
+
 }

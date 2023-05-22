@@ -10,6 +10,7 @@
 #include "YoungNinja.hpp"
 #include "TrainedNinja.hpp"
 #include "OldNinja.hpp"
+#include <algorithm>
 
 constexpr int TeamMembers = 10;
 
@@ -22,28 +23,25 @@ namespace ariel {
         size_t currTeamMembers;
     public:
         Team(Character *leader);
-
         virtual ~Team();
 
         virtual void add(Character *fighter);
-
         virtual void attack(Team *enemyTeam);
-
         int stillAlive();
-
         void print();
 
-        void sortArray();
+        virtual void sortArray();
 
+        Character *getLeader() const;
+        array<Character *, TeamMembers> &getFighters();
         size_t getCurrTeamMembers();
 
-        array<Character *, TeamMembers> &getFighters();
-
-        bool setNewLeader();
-
-        Character *setVictim(Team *enemyTeam);
+        virtual bool setNewLeader();
+        void setLeader(Character *newLeader);
+        virtual Character *setVictim(Team *enemyTeam);
 
         void updateCurrTeamMembers();
+        void setCurrTeamMembers(size_t newSize);
 
         Team(Team &) = delete; // Copy Constructor.
         Team(Team &&) noexcept = delete; // Move Constructor.

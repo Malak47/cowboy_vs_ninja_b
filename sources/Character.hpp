@@ -36,6 +36,8 @@ namespace ariel {
 
         int getHitPoints();
 
+        int getDamage();
+
         bool getJoinedTeam();
 
         void setLocation(Point location);

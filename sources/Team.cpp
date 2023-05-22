@@ -2,7 +2,6 @@
 // Created by malaklinux on 5/5/23.
 //
 #include "Team.hpp"
-#include <algorithm>
 
 using namespace std;
 
@@ -54,8 +53,8 @@ namespace ariel {
         if (!enemyTeam->stillAlive()) {
             throw runtime_error("Error With attack(): EnemyTeam Is Dead\n");
         }
-        //new Leader if necessary
 
+        //new Leader if necessary
         if (!this->leader->isAlive()) {
             if (!setNewLeader()) {
                 return;
@@ -110,12 +109,16 @@ namespace ariel {
     void Team::print() {
         size_t i = 0;
         while (i < currTeamMembers) {
-            fighters[i++]->print();
+            fighters.at(i++)->print();
         }
     }
 
     size_t Team::getCurrTeamMembers() {
         return currTeamMembers;
+    }
+
+    void Team::setCurrTeamMembers(size_t newSize) {
+        currTeamMembers = newSize;
     }
 
 
@@ -179,6 +182,14 @@ namespace ariel {
         }
         this->leader = fighters.at(at);
         return flag;
+    }
+
+    Character *Team::getLeader() const {
+        return leader;
+    }
+
+    void Team::setLeader(Character *newLeader) {
+        this->leader = newLeader;
     }
 
 }
